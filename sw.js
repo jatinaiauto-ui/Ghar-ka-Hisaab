@@ -1,6 +1,6 @@
 // Offline app shell. Same-origin files are network-first (so updates land immediately) with a cache
 // fallback; Google Fonts are cache-first. Supabase calls are cross-origin and never cached.
-const CACHE = 'hisaab-v7';
+const CACHE = 'hisaab-v8';
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest',
   'css/tokens.css', 'css/base.css', 'css/components.css',

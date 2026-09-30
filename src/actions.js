@@ -108,8 +108,9 @@ export async function saveExpenses(rows) {
   refresh().catch(() => toast('Likh liya, par list abhi nahi badli. Dobara kholo.'));
 }
 
-export async function removeExpense(id) {
+export async function removeExpense(id, { beforeRefresh } = {}) {
   await expenses.deleteExpense(id);
+  if (beforeRefresh) await beforeRefresh();
   await refresh();
 }
 

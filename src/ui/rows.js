@@ -7,7 +7,29 @@ import { removeExpense } from '../actions.js';
 import { openEdit } from './edit.js';
 import { toast } from '../lib/toast.js';
 
-const ARM_TIMEOUT_MS = 3000;
+const ARM_TIMEOUT_MS = 3000; // keep in step with --arm-time in components.css
+
+const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/** Slide the row out, then collapse the space it took so the rows below glide up. */
+function leave(row) {
+  const cs = getComputedStyle(row);
+  const gap = parseFloat(getComputedStyle(row.parentElement).rowGap) || 0;
+  const h = row.offsetHeight;
+  row.style.overflow = 'hidden';
+  row.style.pointerEvents = 'none';
+  const from = { transform: 'translateX(0)', opacity: 1, height: `${h}px`,
+    paddingTop: cs.paddingTop, paddingBottom: cs.paddingBottom, borderTopWidth: cs.borderTopWidth,
+    borderBottomWidth: cs.borderBottomWidth, marginBottom: '0px' };
+  const gone = { transform: 'translateX(-36px)', opacity: 0, height: `${h}px`,
+    paddingTop: cs.paddingTop, paddingBottom: cs.paddingBottom, borderTopWidth: cs.borderTopWidth,
+    borderBottomWidth: cs.borderBottomWidth, marginBottom: '0px', offset: 0.45 };
+  const collapsed = { transform: 'translateX(-36px)', opacity: 0, height: '0px', paddingTop: '0px',
+    paddingBottom: '0px', borderTopWidth: '0px', borderBottomWidth: '0px', marginBottom: `${-gap}px` };
+  return row.animate([from, gone, collapsed], {
+    duration: reducedMotion() ? 0 : 420, easing: 'cubic-bezier(.23, 1, .32, 1)', fill: 'forwards',
+  }).finished;
+}
 
 export function expenseRow(state, expense, { withDate = false } = {}) {
   const c = categoryFor(state, expense.category_id);
@@ -57,8 +79,9 @@ export function bindDelete(container) {
     if (!btn) return;
     if (btn.dataset.armed) {
       btn.disabled = true;
+      const row = btn.closest('.row');
       try {
-        await removeExpense(btn.dataset.del);
+        await removeExpense(btn.dataset.del, { beforeRefresh: () => row && leave(row).catch(() => {}) });
         toast('Hata diya');
       } catch {
         btn.disabled = false;
