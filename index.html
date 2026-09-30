@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#F7EEDD">
+<meta name="description" content="Bolkar likho: ghar ka kharcha, Hindi aur English mein.">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Hisaab">
+<title>घर का हिसाब</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icons/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Hind:wght@400;500;600&family=Tiro+Devanagari+Hindi&display=swap">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+<!-- Sign in / create account. Shown instead of #shell when nobody is signed in. -->
+<main id="auth" class="auth" aria-labelledby="auth-title" hidden>
+  <div class="auth-card">
+    <h1 class="hi" id="auth-title">घर का हिसाब</h1>
+    <p class="sub" id="auth-sub"></p>
+    <form id="auth-form" class="auth-form" novalidate>
+      <label id="auth-email-field">Email
+        <input id="auth-email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" required>
+      </label>
+      <label id="auth-password-field">Password
+        <input id="auth-password" type="password" autocomplete="current-password" minlength="6" required>
+      </label>
+      <p id="auth-msg" class="auth-msg" role="alert" hidden></p>
+      <button class="primary" type="submit" id="auth-submit"></button>
+      <button type="button" id="auth-forgot" class="link-btn">Forgot your password? · पासवर्ड भूल गए?</button>
+    </form>
+    <p class="auth-switch" id="auth-switch-row"><span id="auth-switch-text"></span> <button type="button" id="auth-switch" class="link-btn"></button></p>
+  </div>
+</main>
+
+<div id="shell" hidden>
+  <main class="app">
+
+    <section id="screen-home" class="screen active" aria-labelledby="greeting">
+      <header>
+        <div class="home-head">
+          <h1 class="hi" id="greeting">नमस्ते</h1>
+          <button class="icon-btn" type="button" data-goto="profile" aria-label="Profile">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+          </button>
+        </div>
+        <p class="sub">Aaj ka hisaab, ek nazar mein</p>
+      </header>
+      <section class="month-card" aria-label="Is mahine ka kharcha">
+        <p class="label">Is mahine ka kharcha · इस महीने का खर्चा</p>
+        <p class="big" id="month-total">—</p>
+        <p class="budget-line" id="month-budget"></p>
+      </section>
+      <section aria-labelledby="today-h">
+        <div class="section-head"><h2 id="today-h">Aaj · आज</h2><span class="section-meta" id="today-total"></span></div>
+        <div id="today-list" class="list" aria-live="polite"></div>
+      </section>
+    </section>
+
+    <section id="screen-month" class="screen" aria-labelledby="month-title">
+      <header>
+        <div class="month-nav">
+          <button class="icon-btn" id="prev-month" type="button" aria-label="Pichla mahina">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <h1 class="hi" id="month-title">Mahina</h1>
+          <button class="icon-btn" id="next-month" type="button" aria-label="Agla mahina">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+        <p class="big" id="month-total-2">—</p>
+      </header>
+      <section class="insight" id="insight" aria-labelledby="insight-h" hidden>
+        <h2 id="insight-h">Hisaab ki baat · हिसाब की बात</h2>
+        <div id="insight-body" aria-live="polite"></div>
+      </section>
+      <section aria-labelledby="bars-h">
+        <h2 id="bars-h">Kahan gaya · कहाँ गया</h2>
+        <div id="bars" class="bars"></div>
+      </section>
+      <section aria-labelledby="all-h">
+        <h2 id="all-h">Saare kharche · सारे खर्चे</h2>
+        <div id="month-list" class="days"></div>
+      </section>
+    </section>
+
+    <section id="screen-profile" class="screen" aria-labelledby="profile-title">
+      <header>
+        <div class="month-nav">
+          <button class="icon-btn" type="button" data-goto="home" aria-label="Back">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <h1 class="title-en" id="profile-title">Profile</h1>
+          <span class="icon-btn-spacer" aria-hidden="true"></span>
+        </div>
+      </header>
+      <section class="profile-card" aria-label="Account">
+        <p class="label">Email</p>
+        <p class="profile-email" id="signed-in-as"></p>
+      </section>
+      <form id="profile-form" class="profile-form" aria-labelledby="about-h">
+        <h2 id="about-h">About you · आपके बारे में</h2>
+        <p class="sub">All of this is optional, and only you can see it.</p>
+        <label>Name · नाम<input id="pf-name" type="text" maxlength="60" autocomplete="name"></label>
+        <label>Phone · फ़ोन<input id="pf-phone" type="tel" inputmode="tel" maxlength="20" autocomplete="tel"></label>
+        <label>City · शहर<input id="pf-city" type="text" maxlength="60" autocomplete="address-level2"></label>
+        <label>People in your household · घर में कितने लोग<input id="pf-size" type="number" inputmode="numeric" min="1" max="30" step="1"></label>
+        <label>Monthly budget (₹) · महीने का बजट<input id="pf-budget" type="number" inputmode="decimal" min="0" step="any"></label>
+        <button class="primary" type="submit" id="pf-save">Save · संभालो</button>
+      </form>
+      <button type="button" id="signout-btn" class="secondary-inline">Sign out · बाहर निकलो</button>
+      <section class="profile-danger" aria-labelledby="danger-h">
+        <h2 id="danger-h">Delete account · अकाउंट हटाओ</h2>
+        <p class="sub">All your expenses will be erased permanently. This cannot be undone.</p>
+        <button type="button" id="delete-account-btn" class="danger-btn">Delete account · अकाउंट हटाओ</button>
+      </section>
+    </section>
+
+  </main>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <nav class="dock" aria-label="Main">
+    <button class="tab" type="button" data-tab="home" aria-current="page">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4v-9zM10 20v-6h4v6"/></svg>
+      <span>Ghar</span>
+    </button>
+    <button class="tab tab-mic" type="button" id="mic-btn" aria-haspopup="dialog">
+      <span class="mic-disc">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>
+      </span>
+      <span>Bolkar likho</span>
+    </button>
+    <button class="tab" type="button" data-tab="month">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+      <span>Mahina</span>
+    </button>
+  </nav>
+</div>
+
+<!-- Listening / confirm sheet. Outside #shell so the page behind can be made inert while it is open. -->
+<div id="sheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" tabindex="-1" hidden>
+  <div class="sheet-top">
+    <div aria-live="polite">
+      <h2 class="hi" id="sheet-title">सुन रही हूँ…</h2>
+      <p class="sub" id="sheet-sub">Listening. Speak in Hindi or English.</p>
+    </div>
+    <button class="lang" id="lang-btn" type="button" aria-label="Bhasha badlo">हिं</button>
+  </div>
+
+  <div class="rings live" id="rings" aria-hidden="true">
+    <div class="r1"><div class="r2"><div class="r3">
+      <svg class="icon" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>
+    </div></div></div>
+  </div>
+
+  <div class="thinking" id="thinking" role="status" aria-label="Samajh rahi hoon" hidden><span></span><span></span><span></span></div>
+
+  <p class="heard" id="heard"></p>
+  <div id="cards" class="cards" hidden></div>
+  <div id="answer" class="answer" hidden></div>
+
+  <form id="type-form" class="type-form">
+    <label for="type-input" class="sr-only">Type instead</label>
+    <input id="type-input" type="text" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="none" placeholder="Ya yahan likho: sabzi 120, doodh 60">
+    <button type="submit" class="ghost">Likho</button>
+  </form>
+
+  <div class="sheet-actions">
+    <button id="save-btn" class="primary" type="button" hidden>Sahi hai · सही है</button>
+    <button id="retry-btn" class="secondary" type="button" hidden>Dobara bolo · दोबारा बोलो</button>
+    <button id="close-btn" class="secondary" type="button">Band karo · बंद करो</button>
+  </div>
+</div>
+
+<!-- Edit an existing entry -->
+<div id="edit" class="edit" hidden>
+  <form id="edit-form" class="edit-card" role="dialog" aria-modal="true" aria-labelledby="edit-title">
+    <h2 class="hi" id="edit-title">Badlo · बदलो</h2>
+    <label>Category<select id="edit-cat"></select></label>
+    <label>Rupaye<input id="edit-amount" type="number" inputmode="decimal" min="0.01" step="any" required></label>
+    <label>Kis cheez ka (note)<input id="edit-note" type="text" maxlength="80" autocomplete="off"></label>
+    <label>Tareekh<input id="edit-date" type="date" required></label>
+    <button class="primary" type="submit" id="edit-save">Sahi hai · सही है</button>
+    <button class="secondary" type="button" id="edit-cancel">Rehne do · रहने दो</button>
+  </form>
+</div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

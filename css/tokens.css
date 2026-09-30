@@ -1,0 +1,43 @@
+/* Design tokens. Components only ever reference these, never raw colors.
+   Palette: warm paper + terracotta, for a Hindi-first household diary. Text pairs are >= 4.5:1. */
+:root {
+  color-scheme: light;
+
+  --bg: #F7EEDD;
+  --surface: #FFFAF0;
+  --surface-2: #EBD9C2;       /* bar tracks, skeletons */
+  --ink: #3B2A20;
+  --ink-soft: #5A4536;
+  --line: #D8B894;
+  --dot: #E9D3B0;             /* dotted pattern on the month card */
+
+  --accent: #B8482B;          /* fills: mic, primary button, armed delete */
+  --on-accent: #FFFAF0;
+  --accent-text: #B8482B;     /* accent used as text on --surface */
+  --accent-soft: #F0C9BB;
+  --bar: #B8482B;
+
+  --focus: #3B2A20;
+  --gold: #EDA82B;
+  --chip-ink: #3B2A20;        /* category icons sit on pastel chips in both schemes */
+
+  /* The listening sheet is light too. */
+  --sheet-bg: #F7EEDD;
+  --sheet-text: #3B2A20;
+  --sheet-soft: #5A4536;
+  --sheet-line: #D8B894;
+
+  --font-body: 'Hind', system-ui, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-hindi: 'Tiro Devanagari Hindi', 'Hind', serif;
+
+  --radius-sm: 12px;
+  --radius: 16px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+  --shadow: 0 1px 2px rgb(59 42 32 / .08), 0 4px 14px rgb(59 42 32 / .06);
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
+
+  --dock-h: 84px;
+}
