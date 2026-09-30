@@ -21,7 +21,7 @@ Vanilla JS, Supabase (Postgres, Auth, Edge Functions), OpenRouter (`openai/gpt-4
 
 1. In the Supabase SQL Editor, run `supabase/schema.sql`. It is safe to run again.
 2. In Supabase under Authentication, turn on Email sign-in with Confirm email enabled, and set the Site URL to wherever you host the app.
-3. Copy `.env.example` to `.env.local` and fill in your Supabase project URL and anon key. Then run `npm run config`, which creates `src/config.js` (git-ignored). Both values are public by design, since row-level security is what protects the data. On Netlify or Vercel, set the same variables in the dashboard and use `npm run config` as the build command.
+3. Copy `.env.example` to `.env.local` and fill in your Supabase project URL and anon key. Then run `npm run config`, which creates `src/config.js` (git-ignored). Both values are public by design, since row-level security is what protects the data. On Netlify or Vercel, set the same variables in the dashboard and the build script (`npm run build`) creates the config at deploy time.
 4. Optional, for AI parsing: deploy the Edge Function.
    ```
    supabase link --project-ref YOUR-PROJECT-REF
